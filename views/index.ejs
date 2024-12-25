@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Berita Terkini</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Dunia Dalam Berita</h1>
+    </header>
+
+    <!-- Tombol Add News -->
+    <a href="/add-news" class="add-news-btn">
+      <i class="fas fa-plus"></i>
+    </a>
+    <div class="bungkus">
+      <div class="container">
+        <% cards.forEach(card => { %>
+        <div class="card">
+          <div class="card__header">
+            <img
+              src="<%= card.image_url %>"
+              alt="card__image"
+              class="card__image"
+              width="600"
+            />
+          </div>
+          <div class="card__body">
+            <span class="tag tag-blue"><%= card.category %></span>
+            <h4><%= card.title %></h4>
+            <p><%= card.description %></p>
+          </div>
+          <div class="card__footer">
+            <div class="user">
+              <div class="user__info">
+                <h5><%= card.author %></h5>
+                <small><%= new Date(card.created_at).toLocaleString() %></small>
+              </div>
+            </div>
+            <!-- Tombol Delete -->
+            <form
+              action="/delete-news/<%= card.id %>"
+              method="POST"
+              class="delete-form"
+            >
+              <button type="submit" class="delete-btn">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+
+    <script>
+      document.querySelectorAll(".delete-form").forEach((form) => {
+        form.addEventListener("submit", function (e) {
+          const confirmed = confirm(
+            "Are you sure you want to delete this news?"
+          );
+          if (!confirmed) e.preventDefault();
+        });
+      });
+    </script>
+  </body>
+</html>
